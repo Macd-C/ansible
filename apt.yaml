@@ -1,9 +1,8 @@
 ---
-- hosts: all
+- hosts: servers
   become: true
-  become_method: sudo
   tasks:
-    - name: update apt packages
+    - name: Update packages
       apt:
-        upgrade: yes
+        upgrade: dist
         update_cache: yes
