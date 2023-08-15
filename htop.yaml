@@ -4,5 +4,5 @@
   tasks:
     - name: install htop
       apt:
-        package: htop
-        status: present
+        name: htop
+        state: present
