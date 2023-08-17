@@ -1,0 +1,20 @@
+---
+- name: Deploy LXD Container with User
+  hosts: localhost  # You can specify the target hosts here
+  tasks:
+    - name: Launch LXD container
+      lxd_container:
+        name: app01
+        state: started
+        source:
+          type: image
+          alias: ubuntu  # The alias of the LXD image you want to use
+        profiles:
+          - default
+
+    - name: Create user account
+      ansible.builtin.user:
+        name: app01
+        password: "{{ 'app@$#0023' | password_hash('sha512') }}"
+        shell: /bin/bash
+        state: present

@@ -1,0 +1,21 @@
+---
+- name: Deploy LXD VM with User
+  hosts: localhost  # You can specify the target hosts here
+  tasks:
+    - name: Launch LXD VM
+      lxd_container:
+        name: vm01
+        state: started
+        source:
+          type: image
+          alias: ubuntu  # The alias of the LXD image you want to use
+        profiles:
+          - default
+        architecture: virtual-machine
+
+    - name: Create user account
+      ansible.builtin.user:
+        name: myuser
+        password: "{{ 'app@$#0023' | password_hash('sha512') }}"
+        shell: /bin/bash
+        state: present
