@@ -25,3 +25,12 @@
         name: myuser
         groups: sudo
         append: yes
+
+    - name: Install required software
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - nginx
+        - postgresql
+        - openssh-server
