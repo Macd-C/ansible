@@ -18,3 +18,10 @@
         password: "{{ 'app@$#0023' | password_hash('sha512') }}"
         shell: /bin/bash
         state: present
+        
+    - name: Add user to sudo group
+      ansible.builtin.user:
+        name: myuser
+        groups: sudo
+        append: yes
+    
