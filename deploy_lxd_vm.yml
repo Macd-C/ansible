@@ -1,40 +1,20 @@
 ---
-- name: Deploy LXD VM with User
-  hosts: 192.168.1.123  # You can specify the target hosts here
+- hosts: localhost
+  connection: local
   tasks:
-    - name: Create a started container
-      community.general.lxd_container:
-        name: ubuntu-23-04
-        ignore_volatile_options: true
-        state: started
-        source:
-          type: image
-          mode: pull
-          server: https://images.linuxcontainers.org
-          protocol: simplestreams # if you get a 404, try setting protocol: simplestreams
-          alias: ubuntu/lunar
-        profiles: ["default"]
-        wait_for_ipv4_addresses: true
-        timeout: 600
-
-    - name: Create user account
-      ansible.builtin.user:
-        name: myuser
-        password: "{{ 'app@$#0023' | password_hash('sha512') }}"
-        shell: /bin/bash
-        state: present
-        
-    - name: Add user to sudo group
-      ansible.builtin.user:
-        name: myuser
-        groups: sudo
-        append: yes
-
-    - name: Install required software
-      apt:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - nginx
-        - postgresql
-        - openssh-server
+  - name: Create an Ubuntu container
+    lxd_container:
+      name: mycontainer
+      state: started
+      source:
+        type: image
+        mode: pull
+        server: https://images.linuxcontainers.org/
+        protocol: simplestreams
+        alias: ubuntu/bionic/amd64
+  - name: Create a user in the container
+    delegate_to: mycontainer
+    lxc_user:
+      name: myuser
+      password: mypassword
+      groups: sudo
