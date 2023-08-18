@@ -19,4 +19,4 @@
         timeout: 600
     - name: Create a user in the container
       delegate_to: ubuntu-23-04
-      command: lxc exec my-container -- adduser mac --disabled-password --gecos ""
+      command: lxc exec ubuntu-23-04 -- adduser mac --disabled-password --gecos ""
