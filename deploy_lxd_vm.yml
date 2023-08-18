@@ -8,7 +8,7 @@
         state: started
         source:
           type: image
-          alias: ubuntu  # The alias of the LXD image you want to use
+          alias: ubuntu:23.04  # The alias of the LXD image you want to use
         profiles:
           - default
         architecture: virtual-machine
