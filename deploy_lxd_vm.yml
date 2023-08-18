@@ -11,7 +11,7 @@
           type: image
           mode: pull
           server: https://images.linuxcontainers.org
-          protocol: lxd # if you get a 404, try setting protocol: simplestreams
+          protocol: simplestreams # if you get a 404, try setting protocol: simplestreams
           alias: ubuntu/lunar
         profiles: ["default"]
         wait_for_ipv4_addresses: true
