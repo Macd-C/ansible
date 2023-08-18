@@ -27,7 +27,6 @@
                     timeout=60
       become: no
 
-
     - name: Create a user in the container
       command: lxc exec ubuntu-23-04 -- adduser mac --disabled-password --gecos ""
       become: no
