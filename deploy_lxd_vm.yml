@@ -17,6 +17,17 @@
           - default
         wait_for_ipv4_addresses: true
         timeout: 600
-    - name: Create a user in the container
+
+    - name: Wait for container to start
       delegate_to: ubuntu-23-04
+      local_action: wait_for
+                    host="ubuntu-23-04"
+                    port=8443
+                    delay=5
+                    timeout=60
+      become: no
+
+
+    - name: Create a user in the container
       command: lxc exec ubuntu-23-04 -- adduser mac --disabled-password --gecos ""
+      become: no
