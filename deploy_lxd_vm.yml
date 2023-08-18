@@ -4,7 +4,7 @@
   tasks:
     - name: Create a started container
       community.general.lxd_container:
-        name: ubuntu-23.04
+        name: ubuntu-23-04
         ignore_volatile_options: true
         state: started
         source:
