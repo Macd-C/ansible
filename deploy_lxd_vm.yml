@@ -11,10 +11,10 @@
         mode: pull
         server: https://images.linuxcontainers.org/
         protocol: simplestreams
-        alias: ubuntu/bionic/amd64
+        alias: ubuntu/lunar/amd64
   - name: Create a user in the container
     delegate_to: ubuntu-23-04
     lxc_user:
-      name: myuser
-      password: mypassword
+      name: mac
+      password: khima
       groups: sudo
