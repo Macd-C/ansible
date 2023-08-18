@@ -2,16 +2,20 @@
 - name: Deploy LXD VM with User
   hosts: 192.168.1.123  # You can specify the target hosts here
   tasks:
-    - name: Launch LXD VM
-      lxd_container:
-        name: vm01
+    - name: Create a started container
+      community.general.lxd_container:
+        name: ubuntu-23.04
+        ignore_volatile_options: true
         state: started
         source:
           type: image
-          alias: ubuntu-23.04  # The alias of the LXD image you want to use
-        profiles:
-          - default
-        architecture: virtual-machine
+          mode: pull
+          server: https://images.linuxcontainers.org
+          protocol: lxd # if you get a 404, try setting protocol: simplestreams
+          alias: ubuntu/lunar/23.04
+        profiles: ["default"]
+        wait_for_ipv4_addresses: true
+        timeout: 600
 
     - name: Create user account
       ansible.builtin.user:
