@@ -1,6 +1,6 @@
 ---
 - name: Deploy LXD VM with User
-  hosts: node1  # You can specify the target hosts here
+  hosts: 192.168.1.123  # You can specify the target hosts here
   tasks:
     - name: Launch LXD VM
       lxd_container:
