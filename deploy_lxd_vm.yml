@@ -1,6 +1,6 @@
 ---
 - name: Deploy LXD VM with User
-  hosts: 192.168.1.123  # You can specify the target hosts here
+  hosts: 192.168.1.123
   tasks:
     - name: Create a started container
       community.general.lxd_container:
@@ -11,15 +11,15 @@
           type: image
           mode: pull
           server: https://images.linuxcontainers.org
-          protocol: simplestreams # if you get a 404, try setting protocol: simplestreams
+          protocol: simplestreams
           alias: ubuntu/lunar
-        profiles: ["default"]
+        profiles:
+          - default
         wait_for_ipv4_addresses: true
         timeout: 600
-
-  - name: Create a user in the container
-    delegate_to: ubuntu-23-04
-    lxc_user:
-      name: mac
-      password: khima
-      groups: sudo
+    - name: Create a user in the container
+      delegate_to: ubuntu-23-04
+      lxc_user:
+        name: mac
+        password: khima
+        groups: sudo
