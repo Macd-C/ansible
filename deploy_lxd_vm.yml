@@ -1,21 +1,23 @@
 ---
-- hosts: localhost
-  connection: local
+- name: Create Ubuntu Container and User
+  hosts: 192.168.1.123
+  become: yes
   tasks:
-  - name: Create an Ubuntu container
-    lxd_container:
-      name: ubuntu-23-04
-      state: started
-      source:
-        type: image
-        mode: pull
-        server: https://images.linuxcontainers.org/
-        protocol: simplestreams
-        alias: ubuntu/lunar
-        
-  - name: Create a user in the container
-    delegate_to: ubuntu-23-04
-    lxc_user:
-      name: mac
-      password: khima
-      groups: sudo
+    - name: Ensure LXD container is running
+      command: lxc launch ubuntu:20.04 my-container
+      ignore_errors: yes
+      changed_when: false
+
+    - name: Wait for container to start
+      delegate_to: 192.168.1.123
+      local_action: wait_for
+                    host="192.168.1.123"
+                    port=8443
+                    delay=5
+                    timeout=60
+      become: no
+
+    - name: Execute command in container to create user
+      command: lxc exec my-container -- adduser mac --disabled-password --gecos ""
+      become: no
+
