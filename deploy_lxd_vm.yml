@@ -12,7 +12,7 @@
           mode: pull
           server: https://images.linuxcontainers.org
           protocol: lxd # if you get a 404, try setting protocol: simplestreams
-          alias: ubuntu/lunar/23.04
+          alias: ubuntu-lunar-23.04
         profiles: ["default"]
         wait_for_ipv4_addresses: true
         timeout: 600
