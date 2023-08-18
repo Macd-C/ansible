@@ -17,7 +17,3 @@
           - default
         wait_for_ipv4_addresses: true
         timeout: 600
-
-    - name: Create a user in the container
-      command: lxc exec ubuntu-23-04 -- adduser mac01 --disabled-password --gecos ""
-      become: no
