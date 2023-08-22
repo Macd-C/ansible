@@ -1,36 +1,26 @@
 ---
-- name: Deploy LXD Container with User
-  hosts: localhost  # You can specify the target hosts here
+- name: Create LXD container
+  hosts: localhost
+  become: true
+  vars:
+    container_name: lab01
+    container_image: ubuntu/focal/amd64
+    container_user: mac
+    container_password: khima
+
   tasks:
-    - name: Launch LXD container
-      lxd_container:
-        name: app01
+    - name: Create LXD container
+      community.general.lxd_container:
+        name: "{{ container_name }}"
         state: started
-        source:
-          type: image
-          alias: ubuntu  # The alias of the LXD image you want to use
+        image_remote: "{{ container_image }}"
         profiles:
           - default
-
-    - name: Create user account
-      ansible.builtin.user:
-        name: app01
-        password: "{{ 'app@$#0023' | password_hash('sha512') }}"
-        shell: /bin/bash
-        state: present
-        
-    - name: Add user to sudo group
-      ansible.builtin.user:
-        name: myuser
-        groups: sudo
-        append: yes
-
-    - name: Install required software
-      apt:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - nginx
-        - postgresql
-        - openssh-server
-    
+        config:
+          user.user-data: |
+            #cloud-config
+            users:
+              - name: "{{ container_user }}"
+                passwd: "{{ container_password }}"
+                shell: /bin/bash
+                sudo: ALL=(ALL) NOPASSWD:ALL
