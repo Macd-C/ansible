@@ -4,7 +4,7 @@
   become: true
   vars:
     container_name: lab01
-    container_image: ubuntu/focal/amd64
+    container_image: https://images.linuxcontainers.org
     container_user: mac
     container_password: khima
 
