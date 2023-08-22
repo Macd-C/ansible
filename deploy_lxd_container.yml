@@ -26,6 +26,10 @@
             users:
               - name: "{{ container_user }}"
                 passwd: "{{ container_password }}"
+                generate_ssh_key: true
+                ssh_key_file: ~/.ssh/id_rsa
+                ssh_key_type: rsa
+                ssh_key_bits: 4096
                 home: /home/mac
                 group: "{{ container_user }}"
                 shell: /bin/bash
