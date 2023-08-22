@@ -26,5 +26,6 @@
             users:
               - name: "{{ container_user }}"
                 passwd: "{{ container_password }}"
+                home:/home/mac
                 shell: /bin/bash
                 sudo: ALL=(ALL) NOPASSWD:ALL
