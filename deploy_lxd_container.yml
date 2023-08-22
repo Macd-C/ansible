@@ -1,6 +1,6 @@
 ---
 - name: Create LXD container
-  hosts: localhost
+  hosts: 192.168.1.123
   become: true
   vars:
     container_name: lab01
