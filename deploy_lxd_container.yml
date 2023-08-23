@@ -1,10 +1,16 @@
 ---
-- name: Create an lxd container
+- name: Create LXD container
   hosts: 192.168.1.123
+  become: true
+  vars:
+    container_name: lab01
+    container_user: mac
+    container_password: khima
+
   tasks:
-    - name: Create a container
+    - name: Create LXD container
       community.general.lxd_container:
-        name: lab01
+        name: "{{ container_name }}"
         state: started
         source:
           type: image
@@ -14,3 +20,17 @@
           alias: ubuntu/lunar
         profiles:
           - default
+        config:
+          user.user-data: |
+            #cloud-config
+            users:
+              - name: "{{ container_user }}"
+                passwd: "{{ container_password }}"
+                generate_ssh_key: true
+                ssh_key_file: ~/.ssh/id_rsa
+                ssh_key_type: rsa
+                ssh_key_bits: 4096
+                home: /home/mac
+                group: "{{ container_user }}"
+                shell: /bin/bash
+                sudo: ALL=(ALL) NOPASSWD:ALL
