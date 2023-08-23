@@ -1,4 +1,5 @@
 ---
+---
 - name: Create LXD container
   hosts: 192.168.1.123
   become: true
@@ -20,17 +21,15 @@
           alias: ubuntu/lunar
         profiles:
           - default
-        config:
-          user.user-data: |
-            #cloud-config
-            users:
-              - name: "{{ container_user }}"
-                passwd: "{{ container_password }}"
-                generate_ssh_key: true
-                ssh_key_file: ~/.ssh/id_rsa
-                ssh_key_type: rsa
-                ssh_key_bits: 4096
-                home: /home/mac
-                group: "{{ container_user }}"
-                shell: /bin/bash
-                sudo: ALL=(ALL) NOPASSWD:ALL
+
+    - name: Check python is installed in container
+      delegate_to: "{{ container_name }}"
+      ansible.builtin.raw: dpkg -s python
+      register: python_install_check
+      failed_when: python_install_check.rc not in [0, 1]
+      changed_when: false
+
+    - name: Install python in container
+      delegate_to: "{{ container_name }}"
+      ansible.builtin.raw: apt-get install -y python
+      when: python_install_check.rc == 1
