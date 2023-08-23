@@ -1,6 +1,6 @@
 ---
 - name: Create an lxd container
-  hosts: localhost
+  hosts: 192.168.1.123
   tasks:
     - name: Create a container
       community.general.lxd_container:
