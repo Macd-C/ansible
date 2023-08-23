@@ -11,7 +11,9 @@
           mode: pull
           server: https://images.linuxcontainers.org
           protocol: simplestreams
-          alias: ubuntu/xenial/amd64
+          alias: ubuntu/lunar
+        profiles:
+          - default
 
     - name: Create a custom user
       user:
