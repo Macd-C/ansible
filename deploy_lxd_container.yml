@@ -1,36 +1,27 @@
 ---
-- name: Create LXD container
-  hosts: 192.168.1.123
-  become: true
-  vars:
-    container_name: lab01
-    container_user: mac
-    container_password: khima
-
+- name: Create an lxd container
+  hosts: localhost
   tasks:
-    - name: Create LXD container
+    - name: Create a container
       community.general.lxd_container:
-        name: "{{ container_name }}"
+        name: lab01
         state: started
         source:
           type: image
           mode: pull
           server: https://images.linuxcontainers.org
           protocol: simplestreams
-          alias: ubuntu/lunar
-        profiles:
-          - default
-        config:
-          user.user-data: |
-            #cloud-config
-            users:
-              - name: "{{ container_user }}"
-                passwd: "{{ container_password }}"
-                generate_ssh_key: true
-                ssh_key_file: ~/.ssh/id_rsa
-                ssh_key_type: rsa
-                ssh_key_bits: 4096
-                home: /home/mac
-                group: "{{ container_user }}"
-                shell: /bin/bash
-                sudo: ALL=(ALL) NOPASSWD:ALL
+          alias: ubuntu/xenial/amd64
+
+    - name: Create a custom user
+      user:
+        name: mac
+        password: "{{ 'khima' | password_hash('sha512') }}"
+      delegate_to: lab01
+
+    - name: Set up ssh access
+      authorized_key:
+        user: mac
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      delegate_to: lab01
