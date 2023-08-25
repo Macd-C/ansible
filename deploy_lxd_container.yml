@@ -16,5 +16,6 @@
         profiles:
           - default
       with_items:
-        - { name: container1, image: "{{ item.alias }}" }
-        - { name: container2, image: "{{ item.alias }}" }
+        - { name: container1 }
+        - { name: container2 }
+ 
