@@ -2,21 +2,20 @@
 - name: Create LXD container
   hosts: 192.168.1.123
   become: true
-  vars:
-    container_name: lab01
-    container_user: mac
-    container_password: khima
-
   tasks:
     - name: Create LXD container
       community.general.lxd_container:
-        name: "{{ container_name }}"
+        name: "{{ item.name }}"
         state: started
         source:
           type: image
           mode: pull
           server: https://images.linuxcontainers.org
           protocol: simplestreams
-          alias: ubuntu/lunar
+          alias: "{{ item.image }}"
         profiles:
           - default
+  
+      with_items:
+        - { name: container1, image: ubuntu:23.04 }
+        - { name: container2, image: ubuntu:23.04 }
