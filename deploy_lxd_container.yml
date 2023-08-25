@@ -16,5 +16,5 @@
         profiles:
           - default
       with_items:
-        - { name: container1 }
-        - { name: container2 }
+        - { name: splicelab1 }
+        - { name: splicelab2 }
