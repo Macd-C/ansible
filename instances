@@ -1,0 +1,14 @@
+---
+- name: Run LXC Command on Container
+  hosts: 10.90.2.161  # This should be the hostname or IP address of the container
+  become: true  # Use elevated privileges
+
+  tasks:
+    - name: Run LXC Command
+      ansible.builtin.shell:
+        cmd: lxc exec lab01 -- /bin/bash -c "useradd -m newusername && echo 'newusername:newuserpassword' | chpasswd"
+      register: lxc_output
+
+    - name: Display LXC Command Output
+      ansible.builtin.debug:
+        var: lxc_output.stdout
