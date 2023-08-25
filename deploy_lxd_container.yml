@@ -18,4 +18,3 @@
       with_items:
         - { name: container1 }
         - { name: container2 }
- 
