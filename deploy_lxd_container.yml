@@ -12,9 +12,9 @@
           mode: pull
           server: https://images.linuxcontainers.org
           protocol: simplestreams
-          alias: "{{ item.image }}"
+          alias: ubuntu/lunar
         profiles:
           - default
       with_items:
-        - { name: container1, image: ubuntu:23.04 }
-        - { name: container2, image: ubuntu:23.04 }
+        - { name: container1, image: "{{ item.alias }}" }
+        - { name: container2, image: "{{ item.alias }}" }
