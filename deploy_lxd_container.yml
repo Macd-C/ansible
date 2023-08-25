@@ -20,15 +20,3 @@
           alias: ubuntu/lunar
         profiles:
           - default
-
-    - name: Check python is installed in container
-      delegate_to: "{{ container_name }}"
-      ansible.builtin.raw: dpkg -s python
-      register: python_install_check
-      failed_when: python_install_check.rc not in [0, 1]
-      changed_when: false
-
-    - name: Install python in container
-      delegate_to: "{{ container_name }}"
-      ansible.builtin.raw: apt-get install -y python
-      when: python_install_check.rc == 1
